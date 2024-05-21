@@ -82,3 +82,18 @@ npm notice Changelog: https://github.com/npm/cli/releases/tag/v10.8.0
 npm notice Run npm install -g npm@10.8.0 to update!
 npm notice
 ```
+
+#### To automatically reload when there is any changes in tailwind, we need to do the following things.
+
+we need to start the tailwind app by running it in parallel
+`$ python manage.py tailwind start`
+For production, use `build` instead of `start`
+
+
+in `settings.py` file
+	add `NPM_BIN_PATH = "/usr/local/bin/npm"`
+	under INSTALLED_APPS, add `"django_browser_reload"`
+	under MIDDLEWARE, add `"django_browser_reload.middleware.BrowserReloadMiddleware"`
+
+in `urls.py` file
+	add `path("__reload__", include("django_browser_reload.urls"))` under `urlpatterns`
