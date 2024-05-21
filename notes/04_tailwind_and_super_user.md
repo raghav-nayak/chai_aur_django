@@ -154,3 +154,8 @@ This password is too short. It must contain at least 8 characters.
 Bypass password validation and create user anyway? [y/N]: y
 Superuser created successfully.
 ```
+
+To access admin panel, you need to use 
+http://127.0.0.1:8000/admin
+
+you can create non-admin users or groups in the admin panel.
