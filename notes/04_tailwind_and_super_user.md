@@ -159,3 +159,24 @@ To access admin panel, you need to use
 http://127.0.0.1:8000/admin
 
 you can create non-admin users or groups in the admin panel.
+
+
+if you want to reset the admin password
+`python manage.py changepassword <user_name>`
+
+```shell
+$ python manage.py changepassword raghav
+Changing password for user 'raghav'
+Password:
+Password (again):
+The password is too similar to the username.
+This password is too short. It must contain at least 8 characters.
+Password:
+Password (again):
+Passwords do not match. Please try again.
+Password:
+Password (again):
+Passwords do not match. Please try again.
+CommandError: Aborting password change for user 'raghav' after 3 attempts
+```
+
