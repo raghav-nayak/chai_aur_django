@@ -21,6 +21,9 @@ class ChaiVariety(models.Model):
     image = models.ImageField(upload_to="chais/")
     date_added = models.DateTimeField(default=timezone.now)
     type = models.CharField(max_length=2, choices=CHAI_TYPES)
+    
+    def __str__(self):
+        return self.name
 ```
 
 ```shell
@@ -95,3 +98,50 @@ Running migrations:
 ```
 
 Once you run this, you will see the table in the sqlite db.
+
+
+We get `admin.py` file using which we can attach any model and view it in admin panel.
+
+`chai/admin.py`
+```python
+from django.contrib import admin
+
+from .models import ChaiVariety
+
+# Register your models here.
+admin.site.register(ChaiVariety)
+```
+
+
+Once you do this, you add view and add records to `ChaiVariety` table.
+
+`chai/templates/chai/all_chai.html`
+```python
+{% extends "layout.html" %}
+
+{% block title %}
+Chai Page
+{% endblock %}
+
+{% block content %}
+<h1> All chais for you </h1>
+{% for chai in chais %}
+    <div class="chai-item">
+        <img src="{{chai.image.url}}" alt="">
+        <h3>{{chai.name}}</h3>
+    </div>
+{% endfor %}
+{% endblock %}
+```
+
+`chai/views.py`
+```python
+from django.shortcuts import render
+
+from .models import ChaiVariety
+
+# Create your views here.
+def all_chai(request):
+    chais = ChaiVariety.objects.all()
+    return render(request, "chai/all_chai.html", {"chais": chais})
+```

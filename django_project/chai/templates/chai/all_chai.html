@@ -7,4 +7,11 @@ Chai Page
 
 {% block content %}
 <h1> All chais for you </h1>
+{% for chai in chais %}
+    <div class="chai-item">
+        <img src="{{chai.image.url}}" alt="">
+        <h3>{{chai.name}}</h3>
+    </div>
+{% endfor %}
 {% endblock %}
+
