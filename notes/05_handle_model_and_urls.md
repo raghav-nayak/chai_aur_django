@@ -21,6 +21,7 @@ class ChaiVariety(models.Model):
     image = models.ImageField(upload_to="chais/")
     date_added = models.DateTimeField(default=timezone.now)
     type = models.CharField(max_length=2, choices=CHAI_TYPES)
+    description = models.TextField(default="")
     
     def __str__(self):
         return self.name
@@ -124,13 +125,23 @@ Chai Page
 {% endblock %}
 
 {% block content %}
-<h1> All chais for you </h1>
-{% for chai in chais %}
-    <div class="chai-item">
-        <img src="{{chai.image.url}}" alt="">
-        <h3>{{chai.name}}</h3>
+    <h1> All chais for you </h1>
+    <div  class="grid grid-cols-3 gap-4 m-4">
+        {% for chai in chais %}
+            <div class="bg-blue-800 p-5 rounded">
+                <img class="rounded shadow-lg" src="{{chai.image.url}}" alt="">
+                <h3 class="text-2xl font-bold">{{chai.name}}</h3>
+                <a href="{% url "chai_detail" chai.id %}">
+                    <button
+                        type="button"
+                        class="inline-flex items-center w-[100%] justify-center px-4 py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-orange-600 hover:bg-color-200 focus:ring-orange-500"
+                    >
+                    {{chai.type}} - {{chai.id}}
+                    </button>
+                </a>
+            </div>
+        {% endfor %}
     </div>
-{% endfor %}
 {% endblock %}
 ```
 
@@ -144,4 +155,35 @@ from .models import ChaiVariety
 def all_chai(request):
     chais = ChaiVariety.objects.all()
     return render(request, "chai/all_chai.html", {"chais": chais})
+
+
+def chai_detail(request, chai_id):
+    chai = get_object_or_404(ChaiVariety, pk=chai_id)
+    return render(request, "chai/chai_detail.html", {"chai": chai})
 ```
+
+`chai/urls.py`
+```python
+urlpatterns = [
+    path("", views.all_chai, name="all_chai"),
+    path("<int:chai_id>/", views.chai_detail, name="chai_detail"),
+]
+```
+
+`chai/templates/chai/chai_detail.html`
+```python
+{% extends "layout.html" %}
+
+{% block title %}
+Chai Detail Page
+{% endblock %}
+
+{% block content %}
+    <h1> Chai detail page </h1>
+    <h3> {{chai.name}}</h3>
+    <p>{{chai.description}}</p>
+
+{% endblock %}
+```
+
+any changes to model, we need to run `makemigrations` and `migrate` commands. It will create another file under migrations folder. 
