@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
@@ -19,3 +20,17 @@ class ChaiVariety(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# one to many model
+class ChaiReview(models.Model):
+    chai = models.ForeignKey(
+        to=ChaiVariety, one_delete=models.CASCADE, related_name="reviews"
+    )
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+    comment = models.TextField()
+    date_added = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.username} review for {self.chai.name}"
