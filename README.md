@@ -15,5 +15,9 @@ Here are some of the types of websites that can be built with Django:
 - Data analysis tools
 - And many more!
 
+Why Django?
+- ridiculously fast
+- reassuringly secure
+- exceedingly scalable
 
 **Declaimer:** It's important to note that Django might not be the best choice for every project. For instance, if you're building a very small and simple website, a more lightweight framework might be a better option. However, for many web development projects, Django's advantages make it a compelling choice.
